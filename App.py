@@ -40,10 +40,10 @@ TRANSFORM = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Normalisation
 ])
 
-# Chemins des fichiers modèles sur Google Drive
+# Liens des modèles Google Drive (ajustez ces liens pour obtenir le fichier directement)
 MODEL_LINKS = {
-    "ResNet50": "https://drive.google.com/file/d/1WTO_F6CG6NLd_BxnTCZZDv1oPkX2I00f/view?usp=sharing",  # Remplacez avec l'ID exact
-    "ConvNeXt": "https://drive.google.com/file/d/14di4RyyKzeBuRUlB_N1n6EkDvo-AVvqn/view?usp=sharing"  # Remplacez avec l'ID exact
+    "ResNet50": "https://drive.google.com/uc?id=1WTO_F6CG6NLd_BxnTCZZDv1oPkX2I00f",  # Remplacez avec l'ID exact
+    "ConvNeXt": "https://drive.google.com/uc?id=14di4RyyKzeBuRUlB_N1n6EkDvo-AVvqn"  # Remplacez avec l'ID exact
 }
 
 # Fonction pour télécharger et charger un modèle
@@ -53,8 +53,12 @@ def download_and_load_model(model_name):
     # Télécharger le modèle s'il n'existe pas
     if not os.path.exists(model_path):
         st.info(f"Téléchargement du modèle {model_name} depuis Google Drive...")
-        gdown.download(MODEL_LINKS[model_name], model_path, quiet=False)
-        st.success(f"Modèle {model_name} téléchargé avec succès.")
+        try:
+            gdown.download(MODEL_LINKS[model_name], model_path, quiet=False)
+            st.success(f"Modèle {model_name} téléchargé avec succès.")
+        except Exception as e:
+            st.error(f"Erreur lors du téléchargement du modèle: {str(e)}")
+            return None
     
     # Charger le modèle selon le type
     if model_name == "ResNet50":
@@ -67,9 +71,14 @@ def download_and_load_model(model_name):
         st.error("Modèle inconnu sélectionné.")
         return None
 
-    model.load_state_dict(torch.load(model_path, map_location=DEVICE))
-    model = model.to(DEVICE)
-    model.eval()  # Passage en mode évaluation
+    # Charger les poids du modèle et le mettre sur le bon appareil (CPU ou GPU)
+    try:
+        model.load_state_dict(torch.load(model_path, map_location=DEVICE))
+        model = model.to(DEVICE)
+        model.eval()  # Passage en mode évaluation
+    except Exception as e:
+        st.error(f"Erreur lors du chargement du modèle : {str(e)}")
+        return None
     return model
 
 # Prédire l'image

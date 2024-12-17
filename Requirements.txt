@@ -1,8 +1,7 @@
-numpy
-Pillow
-matplotlib
-opencv-python
-streamlit
-torch
-torchvision
-torchaudio
+streamlit==1.40.1
+torch==2.5.0+cu118
+torchvision==0.20.0+cu118
+numpy==1.24.3
+Pillow==11.0.0
+matplotlib==3.9.2
+opencv-python==4.10.0

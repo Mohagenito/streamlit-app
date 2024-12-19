@@ -1,5 +1,4 @@
 import streamlit as st
-from torch import nn
 from PIL import Image, ImageOps
 import os
 import gdown  # Pour télécharger les fichiers depuis Google Drive

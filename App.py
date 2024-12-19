@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import Image, ImageOps
 import os
-import gdown  # Pour télécharger les fichiers depuis Google Drive
 
 # Configuration
 NUM_CLASSES = 10  # Nombre de classes

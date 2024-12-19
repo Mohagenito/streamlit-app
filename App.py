@@ -1,5 +1,4 @@
 import streamlit as st
-import torch
 from torchvision import models, transforms
 from torch import nn
 from PIL import Image, ImageOps

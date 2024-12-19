@@ -4,7 +4,7 @@ import os
 
 # Configuration
 NUM_CLASSES = 10  # Nombre de classes
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 # Labels des classes
 CLASS_LABELS = {
